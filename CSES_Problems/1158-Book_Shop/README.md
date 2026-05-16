@@ -13,7 +13,8 @@ You are in a book shop which sells n different books. You know the price and num
 using namespace std;
 
 int n, x;
-int prices[1001], pages[1001], dp[1001][100001];
+int prices[1001], pages[1001];
+// int dp[1001][100001];
 
 // int rec(int i, int amount) {
     //     if (amount > x) return 0;
@@ -58,20 +59,33 @@ int prices[1001], pages[1001], dp[1001][100001];
 
             // 	cout << rec(0, 0) << "\n";
 
-            memset(dp, 0, sizeof(dp)); // dp[n][amount] = 0
+            //     memset(dp, 0, sizeof(dp)); // dp[n][amount] = 0
 
-            for (int i=n-1; i>=0; i--) {
-                for (int sum =0 ; sum <= x; sum++) {
-                    int op1 = dp[i + 1][sum];
-                    int op2 = 0;
-                    if (sum + prices[i] <= x) {
-                        op2 = pages[i] + dp[i + 1][sum + prices[i]];
+            // 	for (int i=n-1; i>=0; i--) {
+                // 	    for (int sum =0 ; sum <= x; sum++) {
+                    // 	        int op1 = dp[i + 1][sum];
+                    // 	        int op2 = 0;
+                    // 	        if (sum + prices[i] <= x) {
+                        // 	            op2 = pages[i] + dp[i + 1][sum + prices[i]];
+                        // 	        }
+                        // 	        dp[i][sum] = max(op1, op2);
+                        // 	    }
+                        // 	}
+
+                        // 	cout << dp[0][0] << "\n";
+
+                        int dp[100001];
+                        memset(dp, 0, sizeof(dp));
+
+                        for (int i=n-1; i>=0; i--) {
+                            for (int sum = 0; sum <=x; sum++) {
+                                int op2 = 0;
+                                if (sum + prices[i] <= x)
+                                op2 = pages[i] + dp[sum + prices[i]];
+                                dp[sum] = max(dp[sum], op2);
+                            }
+                        }
+
+                        cout << dp[0] << "\n";
                     }
-                    dp[i][sum] = max(op1, op2);
-                }
-            }
-
-            cout << dp[0][0] << "\n";
-
-        }
 ```
